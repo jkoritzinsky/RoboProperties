@@ -3,6 +3,7 @@ package jkor.first.roboproperties;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * This class loads properties using {@link java.util.Properties} and allows fetching them with a typed interface.
@@ -37,5 +38,15 @@ public class PropertyLoader {
         defaultProperties.load(defaultPropertyFile);
         cache = new Properties(defaultProperties);
         cache.load(profilePropertyFile);
+    }
+    
+    /**
+     * Constructs a PropertyLoader with propertyCache as it's cache.
+     * Note: Makes a shallow copy of the passed in object.  Later changes to propertyCache will not affect the PropertyLoader.
+     * @param propertyCache The {@link java.util.Properties} object to use as a cache. Cannot be null.
+     */
+    public PropertyLoader(Properties propertyCache) {
+        Assertions.IsNotNull(propertyCache, "propertyCache");
+        cache = propertyCache;
     }
 }

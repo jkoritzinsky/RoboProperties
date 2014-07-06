@@ -9,6 +9,7 @@ package jkor.first.roboproperties;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.*;
@@ -34,7 +35,7 @@ public class PropertyLoaderTest {
     public void constructionWithNullDefaultNoProfileThrowsNullPointerException()
             throws IOException {
         expected.expect(NullPointerException.class);
-        PropertyLoader loader = new PropertyLoader(null);
+        PropertyLoader loader = new PropertyLoader((InputStream)null);
     }
     
     @Test
@@ -53,6 +54,13 @@ public class PropertyLoaderTest {
         expected.expect(NullPointerException.class);
         expected.expectMessage(containsString("profilePropertyFile"));
         PropertyLoader loader = new PropertyLoader(defaultFile, null);
+    }
+    
+    @Test
+    public void constructionWithNullPropertiesCacheThrowsNullPointerException() {
+        expected.expect(NullPointerException.class);
+        expected.expectMessage(containsString("propertyCache"));
+        PropertyLoader loader = new PropertyLoader((Properties)null);
     }
     
 }
