@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.*;
@@ -26,7 +27,7 @@ public class PropertyLoaderTest {
     }
     
     @Rule
-    public ExpectedException expected = ExpectedException.none();
+    public ExpectedException expectedException = ExpectedException.none();
     
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -34,7 +35,7 @@ public class PropertyLoaderTest {
     @Test
     public void constructionWithNullDefaultNoProfileThrowsNullPointerException()
             throws IOException {
-        expected.expect(NullPointerException.class);
+        expectedException.expect(NullPointerException.class);
         PropertyLoader loader = new PropertyLoader((InputStream)null);
     }
     
@@ -42,8 +43,8 @@ public class PropertyLoaderTest {
     public void constructionWithNullDefaultFakeProfileThrowsNullPointerException()
             throws IOException {
         InputStream profile = new FileInputStream(folder.newFile());
-        expected.expect(NullPointerException.class);
-        expected.expectMessage(containsString("defaultPropertyFile"));
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("defaultPropertyFile"));
         PropertyLoader loader = new PropertyLoader(null, profile);
     }
     
@@ -51,16 +52,39 @@ public class PropertyLoaderTest {
     public void constructionWithFakeDefaultNullProfileThrowsNullPointerException()
             throws IOException {
         InputStream defaultFile = new FileInputStream(folder.newFile());
-        expected.expect(NullPointerException.class);
-        expected.expectMessage(containsString("profilePropertyFile"));
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("profilePropertyFile"));
         PropertyLoader loader = new PropertyLoader(defaultFile, null);
     }
     
     @Test
     public void constructionWithNullPropertiesCacheThrowsNullPointerException() {
-        expected.expect(NullPointerException.class);
-        expected.expectMessage(containsString("propertyCache"));
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("propertyCache"));
         PropertyLoader loader = new PropertyLoader((Properties)null);
+    }
+    
+    @Test
+    public void getStringWithExistingPropertyReturnsString(){
+        Properties prop = new Properties();
+        String expectedValue = "I exist";
+        prop.setProperty("test", expectedValue);
+        PropertyLoader target = new PropertyLoader(prop);
+        assertEquals(expectedValue, target.getString("test"));
+    }
+    
+    @Test
+    public void getStringWithNonExistantPropertyReturnsNull(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        assertNull(target.getString("I don't exist"));
+    }
+    
+    @Test
+    public void getStringWithNullPropertyKeyThrowsNullPointerException(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("key"));
+        assertNull(target.getString(null));
     }
     
 }

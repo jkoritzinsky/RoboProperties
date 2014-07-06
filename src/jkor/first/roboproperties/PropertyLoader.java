@@ -3,7 +3,6 @@ package jkor.first.roboproperties;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * This class loads properties using {@link java.util.Properties} and allows fetching them with a typed interface.
@@ -48,5 +47,15 @@ public class PropertyLoader {
     public PropertyLoader(Properties propertyCache) {
         Assertions.IsNotNull(propertyCache, "propertyCache");
         cache = propertyCache;
+    }
+    
+    /**
+     * Fetches the property as a string from the cache.
+     * @param key The key to search for in the cache.  Cannot be null.
+     * @return The value in the cache for the given key as a string.
+     */
+    public String getString(String key){
+        Assertions.IsNotNull(key, "key");
+        return cache.getProperty(key);
     }
 }
