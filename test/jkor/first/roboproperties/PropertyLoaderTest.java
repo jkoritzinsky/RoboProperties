@@ -6,7 +6,6 @@
 
 package jkor.first.roboproperties;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
