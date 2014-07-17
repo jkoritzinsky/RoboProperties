@@ -84,7 +84,40 @@ public class PropertyLoaderTest {
         PropertyLoader target = new PropertyLoader(new Properties());
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage(containsString("key"));
-        assertNull(target.getString(null));
+        target.getString(null);
     }
     
+    @Test
+    public void getIntWithNullPropertyKeyThrowsNullPointerException(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("key"));
+        target.getInt(null);
+    }
+    
+    @Test
+    public void getIntWithNonExistantPropertyKeyReturnsNull(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        assertNull(target.getInt("I don't exist"));
+    }
+    
+    
+    @Test
+    public void getIntWithExistantKeyForIntPropertyReturnsInt(){
+        Properties prop = new Properties();
+        String expectedValue = "1";
+        prop.setProperty("test", expectedValue);
+        PropertyLoader target = new PropertyLoader(prop);
+        assertEquals(1, target.getInt("test").intValue());
+    }
+    
+    @Test
+    public void getIntWithExistantKeyForNonIntPropertyThrowsNumberFormatException(){
+        Properties prop = new Properties();
+        String expectedValue = "I'm not a number";
+        prop.setProperty("test", expectedValue);
+        PropertyLoader target = new PropertyLoader(prop);
+        expectedException.expect(NumberFormatException.class);
+        target.getInt("test");
+    }
 }

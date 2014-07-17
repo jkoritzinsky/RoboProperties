@@ -58,4 +58,17 @@ public class PropertyLoader {
         Assertions.IsNotNull(key, "key");
         return cache.getProperty(key);
     }
+    
+    /**
+     * Gets the property value as an integer.
+     * @param key The key to retrieve the value for.
+     * @return the value of the property as an Integer.
+     * @throws NumberFormatException if the value cannot be parsed as an integer.
+     */
+    public Integer getInt(String key){
+        Assertions.IsNotNull(key, "key");
+        String value = cache.getProperty(key);
+        if(value == null) return null;
+        return Integer.valueOf(value);
+    }
 }
