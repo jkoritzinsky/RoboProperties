@@ -120,4 +120,38 @@ public class PropertyLoaderTest {
         expectedException.expect(NumberFormatException.class);
         target.getInt("test");
     }
+    
+    @Test
+    public void getDoubleWithNullPropertyKeyThrowsNullPointerException(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("key"));
+        target.getDouble(null);
+    }
+    
+    @Test
+    public void getDoubleWithNonExistantPropertyKeyReturnsNull(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        assertNull(target.getDouble("I don't exist"));
+    }
+    
+    
+    @Test
+    public void getDoubleWithExistantKeyForDoublePropertyReturnsDouble(){
+        Properties prop = new Properties();
+        String expectedValue = "1.0";
+        prop.setProperty("test", expectedValue);
+        PropertyLoader target = new PropertyLoader(prop);
+        assertEquals(1.0, target.getDouble("test").doubleValue(), 0.0);
+    }
+    
+    @Test
+    public void getDoubleWithExistantKeyForNonDoublePropertyThrowsNumberFormatException(){
+        Properties prop = new Properties();
+        String expectedValue = "I'm not a number";
+        prop.setProperty("test", expectedValue);
+        PropertyLoader target = new PropertyLoader(prop);
+        expectedException.expect(NumberFormatException.class);
+        target.getDouble("test");
+    }
 }

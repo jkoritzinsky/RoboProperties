@@ -71,4 +71,17 @@ public class PropertyLoader {
         if(value == null) return null;
         return Integer.valueOf(value);
     }
+    
+    /**
+     * Gets the property value as a floating point double.
+     * @param key The key to retrieve the value for.
+     * @return the value of the property as a Double.
+     * @throws NumberFormatException if the value cannot be parsed as an integer.
+     */
+    public Double getDouble(String key){
+        Assertions.IsNotNull(key, "key");
+        String value = cache.getProperty(key);
+        if(value == null) return null;
+        return Double.valueOf(value);
+    }
 }
