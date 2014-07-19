@@ -62,7 +62,7 @@ public class PropertyLoader {
     /**
      * Gets the property value as an integer.
      * @param key The key to retrieve the value for.
-     * @return the value of the property as an Integer.
+     * @return the value of the property as an Integer. Cannot be null.
      * @throws NumberFormatException if the value cannot be parsed as an integer.
      */
     public Integer getInt(String key){
@@ -75,7 +75,7 @@ public class PropertyLoader {
     /**
      * Gets the property value as a floating point double.
      * @param key The key to retrieve the value for.
-     * @return the value of the property as a Double.
+     * @return the value of the property as a Double. Cannot be null.
      * @throws NumberFormatException if the value cannot be parsed as an integer.
      */
     public Double getDouble(String key){
@@ -83,5 +83,20 @@ public class PropertyLoader {
         String value = cache.getProperty(key);
         if(value == null) return null;
         return Double.valueOf(value);
+    }
+    
+    /**
+     * Gets the property value as the given enum type.
+     * @param <T> Type of the Enum.
+     * @param enumType The class instance for the enum type. Cannot be null.
+     * @param key The property key to search for. Cannot be null.
+     * @return The value of the property as the given enum type.
+     */
+    public <T extends Enum<T>> T getEnum(Class<T> enumType, String key){
+        Assertions.IsNotNull(enumType, "enumType");
+        Assertions.IsNotNull(key, "key");
+        String value = cache.getProperty(key);
+        if(value == null) return null;
+        return Enum.valueOf(enumType, value);
     }
 }

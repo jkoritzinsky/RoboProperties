@@ -154,4 +154,47 @@ public class PropertyLoaderTest {
         expectedException.expect(NumberFormatException.class);
         target.getDouble("test");
     }
+    
+    private enum TestEnum {
+        ValueInEnum
+    }
+    
+    @Test
+    public void getEnumWithNullEnumTypeThrowsNullReferenceException(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("enumType"));
+        target.getEnum(null, "");
+    }
+    
+    @Test
+    public void getEnumWithNullKeyThrowsNullReferenceException(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        expectedException.expect(NullPointerException.class);
+        expectedException.expectMessage(containsString("key"));
+        target.getEnum(TestEnum.class, null);
+    }
+    
+    @Test
+    public void getEnumWithNonExistantKeyReturnsNull(){
+        PropertyLoader target = new PropertyLoader(new Properties());
+        assertNull(target.getEnum(TestEnum.class, "I don't exist"));
+    }
+    
+    @Test
+    public void getEnumWithValueNotInEnumThrowsIllegalArgumentException(){
+        Properties properties = new Properties();
+        properties.setProperty("testProperty", "NotInEnum");
+        PropertyLoader target = new PropertyLoader(properties);
+        expectedException.expect(IllegalArgumentException.class);
+        target.getEnum(TestEnum.class, "testProperty");
+    }
+    
+    @Test
+    public void getEnumWithValueInEnumReturnsEnumValue(){
+        Properties properties = new Properties();
+        properties.setProperty("testProperty", "ValueInEnum");
+        PropertyLoader target = new PropertyLoader(properties);
+        assertEquals(TestEnum.ValueInEnum, target.getEnum(TestEnum.class, "testProperty"));
+    }
 }
