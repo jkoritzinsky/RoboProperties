@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package jkor.first.roboproperties;
 
@@ -10,12 +5,13 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.*;
+
 import static org.junit.Assert.*;
-import static org.junit.matchers.JUnitMatchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  *
@@ -33,6 +29,7 @@ public class PropertyLoaderTest {
     public TemporaryFolder folder = new TemporaryFolder();
     
     @Test
+    @SuppressWarnings("unused")
     public void constructionWithNullDefaultNoProfileThrowsNullPointerException()
             throws IOException {
         expectedException.expect(NullPointerException.class);
@@ -40,6 +37,7 @@ public class PropertyLoaderTest {
     }
     
     @Test
+    @SuppressWarnings("unused")
     public void constructionWithNullDefaultFakeProfileThrowsNullPointerException()
             throws IOException {
         InputStream profile = new FileInputStream(folder.newFile());
@@ -49,6 +47,7 @@ public class PropertyLoaderTest {
     }
     
     @Test
+    @SuppressWarnings("unused")
     public void constructionWithFakeDefaultNullProfileThrowsNullPointerException()
             throws IOException {
         InputStream defaultFile = new FileInputStream(folder.newFile());
@@ -58,6 +57,7 @@ public class PropertyLoaderTest {
     }
     
     @Test
+    @SuppressWarnings("unused")
     public void constructionWithNullPropertiesCacheThrowsNullPointerException() {
         expectedException.expect(NullPointerException.class);
         expectedException.expectMessage(containsString("propertyCache"));
