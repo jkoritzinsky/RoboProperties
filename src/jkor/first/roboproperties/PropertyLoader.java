@@ -9,7 +9,7 @@ import java.io.IOException;
  *
  * @author Jeremy Koritzinsky
  */
-public class PropertyLoader {
+public class PropertyLoader extends AbstractPropertyLoader {
     private final Properties cache;
     /**
      * Constructs a PropertyLoader with a single property file.
@@ -41,7 +41,7 @@ public class PropertyLoader {
     
     /**
      * Constructs a PropertyLoader with propertyCache as it's cache.
-     * Note: Makes a shallow copy of the passed in object.  Later changes to propertyCache will not affect the PropertyLoader.
+     * Note: Makes a shallow copy of the passed in object.  Later changes to propertyCache will affect the PropertyLoader.
      * @param propertyCache The {@link java.util.Properties} object to use as a cache. Cannot be null.
      */
     public PropertyLoader(Properties propertyCache) {
@@ -49,54 +49,14 @@ public class PropertyLoader {
         cache = propertyCache;
     }
     
-    /**
-     * Fetches the property as a string from the cache.
-     * @param key The key to search for in the cache.  Cannot be null.
-     * @return The value in the cache for the given key as a string.
-     */
-    public String getString(String key){
-        Assertions.IsNotNull(key, "key");
-        return cache.getProperty(key);
+    private String createNestedName(String... path){
+    	Assertions.NoneAreNull(path, "path");
+    	return String.join(".", path);
     }
     
-    /**
-     * Gets the property value as an integer.
-     * @param key The key to retrieve the value for.
-     * @return the value of the property as an Integer. Cannot be null.
-     * @throws NumberFormatException if the value cannot be parsed as an integer.
-     */
-    public Integer getInt(String key){
-        Assertions.IsNotNull(key, "key");
-        String value = cache.getProperty(key);
-        if(value == null) return null;
-        return Integer.valueOf(value);
+    protected String getProperty(String... path){
+    	String name = createNestedName(path);
+    	return cache.getProperty(name);
     }
-    
-    /**
-     * Gets the property value as a floating point double.
-     * @param key The key to retrieve the value for.
-     * @return the value of the property as a Double. Cannot be null.
-     * @throws NumberFormatException if the value cannot be parsed as an integer.
-     */
-    public Double getDouble(String key){
-        Assertions.IsNotNull(key, "key");
-        String value = cache.getProperty(key);
-        if(value == null) return null;
-        return Double.valueOf(value);
-    }
-    
-    /**
-     * Gets the property value as the given enum type.
-     * @param <T> Type of the Enum.
-     * @param enumType The class instance for the enum type. Cannot be null.
-     * @param key The property key to search for. Cannot be null.
-     * @return The value of the property as the given enum type.
-     */
-    public <T extends Enum<T>> T getEnum(Class<T> enumType, String key){
-        Assertions.IsNotNull(enumType, "enumType");
-        Assertions.IsNotNull(key, "key");
-        String value = cache.getProperty(key);
-        if(value == null) return null;
-        return Enum.valueOf(enumType, value);
-    }
+
 }

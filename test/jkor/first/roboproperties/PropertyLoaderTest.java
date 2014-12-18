@@ -80,30 +80,30 @@ public class PropertyLoaderTest {
     }
     
     @Test
-    public void getStringWithNullPropertyKeyThrowsNullPointerException(){
+    public void getStringWithNullPropertyPathThrowsNullPointerException(){
         PropertyLoader target = new PropertyLoader(new Properties());
         expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage(containsString("key"));
-        target.getString(null);
+        expectedException.expectMessage(containsString("path"));
+        target.getString((String[])null);
     }
     
     @Test
-    public void getIntWithNullPropertyKeyThrowsNullPointerException(){
+    public void getIntWithNullPropertyPathThrowsNullPointerException(){
         PropertyLoader target = new PropertyLoader(new Properties());
         expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage(containsString("key"));
-        target.getInt(null);
+        expectedException.expectMessage(containsString("path"));
+        target.getInt((String[])null);
     }
     
     @Test
-    public void getIntWithNonExistantPropertyKeyReturnsNull(){
+    public void getIntWithNonExistantPropertyPathReturnsNull(){
         PropertyLoader target = new PropertyLoader(new Properties());
         assertNull(target.getInt("I don't exist"));
     }
     
     
     @Test
-    public void getIntWithExistantKeyForIntPropertyReturnsInt(){
+    public void getIntWithExistantPathForIntPropertyReturnsInt(){
         Properties prop = new Properties();
         String expectedValue = "1";
         prop.setProperty("test", expectedValue);
@@ -112,7 +112,7 @@ public class PropertyLoaderTest {
     }
     
     @Test
-    public void getIntWithExistantKeyForNonIntPropertyThrowsNumberFormatException(){
+    public void getIntWithExistantPathForNonIntPropertyThrowsNumberFormatException(){
         Properties prop = new Properties();
         String expectedValue = "I'm not a number";
         prop.setProperty("test", expectedValue);
@@ -122,22 +122,22 @@ public class PropertyLoaderTest {
     }
     
     @Test
-    public void getDoubleWithNullPropertyKeyThrowsNullPointerException(){
+    public void getDoubleWithNullPropertyPathThrowsNullPointerException(){
         PropertyLoader target = new PropertyLoader(new Properties());
         expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage(containsString("key"));
-        target.getDouble(null);
+        expectedException.expectMessage(containsString("path"));
+        target.getDouble((String[])null);
     }
     
     @Test
-    public void getDoubleWithNonExistantPropertyKeyReturnsNull(){
+    public void getDoubleWithNonExistantPropertyPathReturnsNull(){
         PropertyLoader target = new PropertyLoader(new Properties());
         assertNull(target.getDouble("I don't exist"));
     }
     
     
     @Test
-    public void getDoubleWithExistantKeyForDoublePropertyReturnsDouble(){
+    public void getDoubleWithExistantPathForDoublePropertyReturnsDouble(){
         Properties prop = new Properties();
         String expectedValue = "1.0";
         prop.setProperty("test", expectedValue);
@@ -146,7 +146,7 @@ public class PropertyLoaderTest {
     }
     
     @Test
-    public void getDoubleWithExistantKeyForNonDoublePropertyThrowsNumberFormatException(){
+    public void getDoubleWithExistantPathForNonDoublePropertyThrowsNumberFormatException(){
         Properties prop = new Properties();
         String expectedValue = "I'm not a number";
         prop.setProperty("test", expectedValue);
@@ -168,15 +168,15 @@ public class PropertyLoaderTest {
     }
     
     @Test
-    public void getEnumWithNullKeyThrowsNullReferenceException(){
+    public void getEnumWithNullPathThrowsNullReferenceException(){
         PropertyLoader target = new PropertyLoader(new Properties());
         expectedException.expect(NullPointerException.class);
-        expectedException.expectMessage(containsString("key"));
-        target.getEnum(TestEnum.class, null);
+        expectedException.expectMessage(containsString("path"));
+        target.getEnum(TestEnum.class, (String[])null);
     }
     
     @Test
-    public void getEnumWithNonExistantKeyReturnsNull(){
+    public void getEnumWithNonExistantPathReturnsNull(){
         PropertyLoader target = new PropertyLoader(new Properties());
         assertNull(target.getEnum(TestEnum.class, "I don't exist"));
     }
