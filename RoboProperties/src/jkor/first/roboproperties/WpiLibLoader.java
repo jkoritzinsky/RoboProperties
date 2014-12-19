@@ -78,5 +78,36 @@ public class WpiLibLoader {
 		}
 		return new Relay(port, direction);
 	}
-
+	
+	/**
+	 * Loads a @link{edu.wpi.first.wpilibj.RobotDrive} from a properties file.
+	 * @param path The path to the data about the drive system.  Must include a "numWheels" field (either 2 or 4) and the corresponding numbers for the wheels.
+	 * 2 -> leftWheel, rightWheel
+	 * 4 -> frontLeftWheel, rearLeftWheel,frontRightWheel,rearRightWheel
+	 * @return The constructed drive based off the path.
+	 */
+	public RobotDrive loadDrive(String... path) {
+		String[] numWheelsPath = appendFieldToPath(path, "numWheels");
+		int numWheels = baseLoader.getInt(numWheelsPath);
+		switch(numWheels) {
+		case 2:
+			String[] leftWheelPath = appendFieldToPath(path, "leftWheel");
+			SpeedController leftWheel = loadSpeedController(leftWheelPath);
+			String[] rightWheelPath = appendFieldToPath(path, "rightWheel");
+			SpeedController rightWheel = loadSpeedController(rightWheelPath);
+			return new RobotDrive(leftWheel,rightWheel);
+		case 4:
+			String[] frontLeftWheelPath = appendFieldToPath(path, "frontLeftWheel");
+			SpeedController frontLeftWheel = loadSpeedController(frontLeftWheelPath);
+			String[] rearLeftWheelPath = appendFieldToPath(path, "rearLeftWheel");
+			SpeedController rearLeftWheel = loadSpeedController(rearLeftWheelPath);
+			String[] frontRightWheelPath = appendFieldToPath(path, "frontRightWheel");
+			SpeedController frontRightWheel = loadSpeedController(frontRightWheelPath);
+			String[] rearRightWheelPath = appendFieldToPath(path, "rearRightWheel");
+			SpeedController rearRightWheel = loadSpeedController(rearRightWheelPath);
+			return new RobotDrive(frontLeftWheel, rearLeftWheel, frontRightWheel, rearRightWheel);
+		default:
+			throw new IllegalArgumentException("Invalid number of wheels specified:" + numWheels);
+		}
+	}
 }
