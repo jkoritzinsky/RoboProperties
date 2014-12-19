@@ -49,5 +49,13 @@ public class WpiLibLoader {
 			throw new IllegalArgumentException("Unknown speed controller type specified:" + controllerType.toString());
 		}
 	}
+	
+	public Solenoid loadSolenoid(String... path) {
+		String[] portPath = appendFieldToPath(path, "port");
+		int port = baseLoader.getInt(portPath);
+		String[] canIDPath = appendFieldToPath(path, "canID");
+		int canID = baseLoader.getInt(canIDPath);
+		return new Solenoid(port, canID);
+	}
 
 }
