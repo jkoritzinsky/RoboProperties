@@ -50,6 +50,11 @@ public class WpiLibLoader {
 		}
 	}
 	
+	/**
+	 * Loads a solenoid from the property loader.
+	 * @param path The path to the data about the solenoid. Must include a "type" and "canID" field.
+	 * @return The constructed solenoid based off the path.
+	 */
 	public Solenoid loadSolenoid(String... path) {
 		String[] portPath = appendFieldToPath(path, "port");
 		int port = baseLoader.getInt(portPath);
@@ -58,6 +63,11 @@ public class WpiLibLoader {
 		return new Solenoid(port, canID);
 	}
 	
+	/**
+	 * Loads a relay from the property loader.
+	 * @param path The path to the data about the relay.  Must include a "port" and "direction" field.
+	 * @return The constructed relay based off the path.
+	 */
 	public Relay loadRelay(String... path) {
 		String[] portPath = appendFieldToPath(path, "port");
 		int port = baseLoader.getInt(portPath);
