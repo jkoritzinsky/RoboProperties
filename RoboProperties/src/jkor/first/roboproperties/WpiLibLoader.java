@@ -57,5 +57,16 @@ public class WpiLibLoader {
 		int canID = baseLoader.getInt(canIDPath);
 		return new Solenoid(port, canID);
 	}
+	
+	public Relay loadRelay(String... path) {
+		String[] portPath = appendFieldToPath(path, "port");
+		int port = baseLoader.getInt(portPath);
+		String[] directionPath = appendFieldToPath(path, "direction");
+		Relay.Direction direction = baseLoader.getEnum(Relay.Direction.class, directionPath);
+		if(direction == null) {
+			direction = Relay.Direction.kBoth;
+		}
+		return new Relay(port, direction);
+	}
 
 }
