@@ -13,7 +13,7 @@ public class WpiLibLoader {
 	private AbstractPropertyLoader baseLoader;
 	
 	/**
-	 * Constructs a WpiLibLoader using an @link{jkor.first.roboproperties.AbstractPropertyLoader} as a base.
+	 * Constructs a WpiLibLoader using an {@link jkor.first.roboproperties.AbstractPropertyLoader} as a base.
 	 * @param loader The loader to use as a base.
 	 */
 	public WpiLibLoader(AbstractPropertyLoader loader) {
@@ -80,7 +80,7 @@ public class WpiLibLoader {
 	}
 	
 	/**
-	 * Loads a @link{edu.wpi.first.wpilibj.RobotDrive} from a properties file.
+	 * Loads a {@link edu.wpi.first.wpilibj.RobotDrive} from a properties file.
 	 * @param path The path to the data about the drive system.  Must include a "numWheels" field (either 2 or 4) and the corresponding numbers for the wheels.
 	 * 2 -> leftWheel, rightWheel
 	 * 4 -> frontLeftWheel, rearLeftWheel,frontRightWheel,rearRightWheel
