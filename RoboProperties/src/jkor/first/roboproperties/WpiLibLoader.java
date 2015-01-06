@@ -45,6 +45,14 @@ public class WpiLibLoader {
 			return new Talon(port);
 		case Victor:
 			return new Victor(port);
+		case VictorSP:
+			return new VictorSP(port);
+		case TalonSRX:
+			return new TalonSRX(port);
+		case CANJaguar:
+			return new CANJaguar(port);
+		case CANTalon:
+			return new CANTalon(port);
 		default:
 			throw new IllegalArgumentException("Unknown speed controller type specified:" + controllerType.toString());
 		}
@@ -52,15 +60,18 @@ public class WpiLibLoader {
 	
 	/**
 	 * Loads a solenoid from the property loader.
-	 * @param path The path to the data about the solenoid. Must include a "type" and "canID" field.
+	 * @param path The path to the data about the solenoid. Must include a "port" field.  The "canID" field is optional.
 	 * @return The constructed solenoid based off the path.
 	 */
 	public Solenoid loadSolenoid(String... path) {
 		String[] portPath = appendFieldToPath(path, "port");
 		int port = baseLoader.getInt(portPath);
 		String[] canIDPath = appendFieldToPath(path, "canID");
-		int canID = baseLoader.getInt(canIDPath);
-		return new Solenoid(port, canID);
+		Integer canID = baseLoader.getInt(canIDPath);
+		if(canID == null)
+			return new Solenoid(port);
+		else
+			return new Solenoid(port, canID);
 	}
 	
 	/**
@@ -109,5 +120,30 @@ public class WpiLibLoader {
 		default:
 			throw new IllegalArgumentException("Invalid number of wheels specified:" + numWheels);
 		}
+	}
+	
+	/**
+	 * Loads a {@link edu.wpi.first.wpilibj.Servo} from a properties file.
+	 * @param path The path to the servo.  Must include a "port" field.
+	 * @return The constructed servo based off the path.
+	 */
+	public Servo loadServo(String... path) {
+		String[] portPath = appendFieldToPath(path, "port");
+		int port = baseLoader.getInt(portPath);
+		return new Servo(port);
+	}
+	
+	/**
+	 * Loads a {@link edu.wpi.first.wpilibj.Compressor} from a properties file.
+	 * @param path The path to the compressor.  May include "canID" field.
+	 * @return The constructed compressor based off the path.
+	 */
+	public Compressor loadCompressor(String... path) {
+		String[] canIDPath = appendFieldToPath(path, "canID");
+		Integer canID = baseLoader.getInt(canIDPath);
+		if(canID == null)
+			return new Compressor();
+		else
+			return new Compressor(canID);
 	}
 }
