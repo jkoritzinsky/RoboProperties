@@ -76,7 +76,7 @@ public class WpiLibLoader {
 	
 	/**
 	 * Loads a relay from the property loader.
-	 * @param path The path to the data about the relay.  Must include a "port" and "direction" field.
+	 * @param path The path to the data about the relay.  Must include a "port" field. May include a "direction" field.
 	 * @return The constructed relay based off the path.
 	 */
 	public Relay loadRelay(String... path) {
